@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth/cordova";
+import { db } from "../firebase.config";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -27,6 +29,35 @@ function SignUp() {
         }));
     }
 
+    // Function to handle form submission.
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Create auth
+            const auth = getAuth();
+
+            // Register user using the function "createUserWithEmailAndPassword"
+            // which returns a promise. 
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            const user = userCredential.user;
+
+            // Update the display name.
+            updateProfile(auth.currentUser, {
+                displayName: name,
+            })
+            
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
+    } 
+
     return (
         <>
             <div className="pageContainer">
@@ -34,7 +65,7 @@ function SignUp() {
                     <p className="pageHeader">Welcome!</p>
                 </header>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input 
                         type="text" 
                         className="nameInput" 
