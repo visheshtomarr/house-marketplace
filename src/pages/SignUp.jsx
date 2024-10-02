@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth/cordova";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
@@ -51,12 +52,25 @@ function SignUp() {
             updateProfile(auth.currentUser, {
                 displayName: name,
             })
+
+            // Creates a copy of whatever we have in our 'formatData' state.
+            const formDataCopy = {...formData};
+            // We don't want to store the password to the database that's why
+            // we will delete it from the database.
+            delete formDataCopy.password;
+
+            // This will add a timestamp property to the data.
+            formDataCopy.timestamp = serverTimestamp();
+
+            // 'setDoc' will update the database and set a 'user' to the 'users' collection.
+            await setDoc(doc(db, "users", user.uid), formDataCopy);
             
+            // Navigate to the Homepage, in our case, 'explore'.
             navigate("/");
         } catch (error) {
             console.log(error);
         }
-    } 
+    }
 
     return (
         <>
