@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth/cordova";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
@@ -68,7 +69,7 @@ function SignUp() {
             // Navigate to the Homepage, in our case, 'explore'.
             navigate("/");
         } catch (error) {
-            console.log(error);
+            toast.error('Something went wrong!');
         }
     }
 
