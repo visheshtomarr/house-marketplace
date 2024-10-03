@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import OAuth from "../components/OAuth";
 
 function SignIn() {
     // Declare state and set state method for password.
@@ -98,12 +99,11 @@ function SignIn() {
                     </div>
                 </form>
 
-                <div className="registerLink">
-                    <p>New User?</p>
-                    <Link to="/sign-up" className="registerLink">
-                        Sign Up Instead
-                    </Link>
-                </div> 
+                <OAuth />
+
+                <Link to="/sign-up" className="registerLink">
+                    Sign Up Instead
+                </Link>
             </div>
         </>
     )

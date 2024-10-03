@@ -6,6 +6,7 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import OAuth from "../components/OAuth";
 
 function SignUp() {
     // Declare state and set state method for password.
@@ -74,68 +75,70 @@ function SignUp() {
     }
 
     return (
-        <>
+      <>
             <div className="pageContainer">
                 <header>
                     <p className="pageHeader">Welcome!</p>
                 </header>
 
-                <form onSubmit={handleSubmit}>
-                    <input 
-                        type="text" 
-                        className="nameInput" 
-                        placeholder="Name"
-                        id="name"
-                        value={name}
-                        onChange={handleChange}
-                    />
-
-                    <input 
-                        type="email" 
-                        className="emailInput" 
-                        placeholder="Email"
-                        id="email"
-                        value={email}
-                        onChange={handleChange}
-                    />
-
-                    <div className="passwordInputDiv">
-                        <input 
-                            type={showPassword ? "text" : "password"}
-                            className="passwordInput"
-                            placeholder="Password"
-                            id="password"
-                            value={password}
-                            onChange={handleChange} 
+                <main>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            className="nameInput"
+                            placeholder="Name"
+                            id="name"
+                            value={name}
+                            onChange={handleChange}
                         />
-                        <img 
-                            src={visibilityIcon} 
-                            className="showPassword" 
-                            alt="Show password"
-                            onClick={() => setShowPassword((prevState) => !prevState)} 
-                        />
-                    </div>
 
-                    {/* <Link to="/forgot-password" className="forgotPasswordLink">
+                        <input
+                            type="email"
+                            className="emailInput"
+                            placeholder="Email"
+                            id="email"
+                            value={email}
+                            onChange={handleChange}
+                        />
+
+                        <div className="passwordInputDiv">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                className="passwordInput"
+                                placeholder="Password"
+                                id="password"
+                                value={password}
+                                onChange={handleChange}
+                            />
+                            <img
+                                src={visibilityIcon}
+                                className="showPassword"
+                                alt="Show password"
+                                onClick={() => setShowPassword((prevState) => !prevState)}
+                            />
+                        </div>
+
+                        {/* <Link to="/forgot-password" className="forgotPasswordLink">
                         Forgot Password?
                     </Link> */}
 
-                    <div className="signUpBar">
-                        <p className="signUpText">
-                            Sign Up
-                        </p>
-                        <button className="signUpButton">
-                            <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
-                        </button>
-                    </div>
-                </form>
+                        <div className="signUpBar">
+                            <p className="signUpText">Sign Up</p>
+                            <button className="signUpButton">
+                                <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
+                            </button>
+                        </div>
+                    </form>
 
-                <Link to="/sign-in" className="registerLink">
-                    Sign In Instead
-                </Link>
+                    <OAuth />
+
+                    <Link to="/sign-in" className="registerLink">
+                        Sign In Instead
+                    </Link>
+                </main>
             </div>
-        </>
-    )
+      </>
+    );
 }
 
 export default SignUp;
