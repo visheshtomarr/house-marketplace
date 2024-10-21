@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";  
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -56,7 +57,7 @@ function CreateListing() {
                     // userRef will be the current logged in user's ID.
                     setFormData({ ...formData, userRef: user.uid });
                 } else {
-                    navigate("/sign-in")
+                    navigate("/sign-in");
                 }
             })
         }
@@ -92,8 +93,6 @@ function CreateListing() {
         if (!geolocationEnabled) {
             geolocation.lat = latitude;
             geolocation.lng = longitude;
-            location = address;
-            console.log(geolocation, location);
         }
 
         // Function to store images in firebase.
@@ -118,7 +117,7 @@ function CreateListing() {
                                 console.log('Upload is running');
                                 break;
                             default:
-                                break
+                                break;
                         }
                     },
                     (error) => {
@@ -143,9 +142,23 @@ function CreateListing() {
             return;
         })
 
-        console.log(imgUrls);
+        const formDataCopy = {
+            ...formData,
+            imgUrls,
+            geolocation,
+            timestamp: serverTimestamp(),
+        }
 
+        formDataCopy.location = address;
+        // We only need image URLs from the data.
+        delete formDataCopy.images;
+        delete formDataCopy.address;
+        !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+        const docRef = await addDoc(collection(db, "listings"), formDataCopy);
         setLoading(false);
+        toast.success("Listing saved!");
+        navigate(`/category/${formDataCopy.type}/${docRef.id}`);
     }
 
     // Function to handle mutation of button/text/files.
