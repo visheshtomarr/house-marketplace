@@ -77,7 +77,14 @@ button {
   position: absolute;
   top: -3%;
   right: -2%;
+  margin-top: 10%;
 }
+
+.removeIcon:hover{
+  fill: hsl(0, 0%, 20%);
+  scale: 1.1;
+}
+
 .editIcon {
   cursor: pointer;
   position: absolute;

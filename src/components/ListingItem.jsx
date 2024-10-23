@@ -52,8 +52,7 @@ function ListingItem({ listing, id, onDelete }) {
 
             {onDelete && (
                 <DeleteIcon 
-                    className="removeIcon" 
-                    fill="rgb(231, 76, 60)" 
+                    className="removeIcon"
                     onClick={() => onDelete(listing.id, listing.name)}
                 />
             )}
