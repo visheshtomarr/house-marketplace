@@ -90,6 +90,12 @@ button {
   position: absolute;
   top: -3.4%;
   right: 20px;
+  margin-top: 10%;
+}
+
+.editIcon:hover{
+  fill: hsl(0, 0%, 20%);
+  scale: 1.1;
 }
 
 .pageContainer,
